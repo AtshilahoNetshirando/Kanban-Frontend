@@ -1,0 +1,28 @@
+<div layout="column" flex>
+    <md-toolbar class="board-navbar">
+        <div class="md-toolbar-tools">
+            <label>Sprint: </label>
+            <md-input-container class="m0">
+                <label class="hide">Sprint</label>
+                <md-select ng-model="currentSprint" ng-change="sprintChanged()">
+                    <md-option ng-repeat="b in board.sprints" ng-value="b">{{b.name}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-button ng-click="openAddSprintModal($event)" class="md-raised md-primary">
+                Add sprint
+            </md-button>
+            <md-button ng-click=openAddTaskModal($event) class="md-raised md-accent">
+                Add task
+            </md-button>
+            <span flex></span>
+            <md-button ng-if="showSettings" ng-click="openBoardSettingsModal($event)" class="md-icon-button">
+                <md-icon>settings</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div flex layout class="task-list-container">
+        <task-list layout ng-repeat="(zone, list) in tasks" slug="slug" sprint="currentSprint" zone="zone"
+                   tasks="list"></task-list>
+    </div>
+</div>

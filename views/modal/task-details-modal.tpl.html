@@ -1,0 +1,79 @@
+<md-dialog class="add-modal-dialog">
+    <form>
+        <md-dialog-content>
+            <div style="width: 900px;"></div>
+            <div class="md-dialog-content" layout layout-wrap>
+                <div flex="100" layout class="mb10">
+                    <span class="md-title m0" flex="60">{{ task.name }}</span>
+                    <div flex></div>
+                    <md-button class="md-icon-button" ng-click="close()">
+                        <md-icon>close</md-icon>
+                    </md-button>
+                </div>
+                <div flex=66 layout="column" class="p10">
+                    <md-input-container md-no-float class="m0">
+                        <label>Description</label>
+                        <textarea ng-model="task.description"></textarea>
+                    </md-input-container>
+                    <md-list class="md-dense task-comments-list" flex>
+                        <md-subheader class="md-no-sticky" ng-if="task.comments.length > 0">Comments</md-subheader>
+                        <md-list-item class="md-3-line" ng-repeat="item in task.comments">
+                            <img ng-src="{{item.creator.imageUrl}}" class="md-avatar"
+                                 alt="{{item.creator.firstName + ' ' + item.creator.lastName}}"/>
+                            <div class="md-list-item-text" layout="column">
+                                <h4>{{ item.creator.firstName + ' ' + item.creator.lastName }}</h4>
+                                <p>{{ item.creationTime | arraytodate | date:'medium' }}</p>
+                                <h3>{{ item.text }}</h3>
+                            </div>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                    <md-input-container class="md-block" class="task-comments-new-comment">
+                        <label>Write comment</label>
+                        <textarea ng-model="comment" flex enter-submit="insertComment()"></textarea>
+                    </md-input-container>
+                </div>
+                <div flex=33 layout="column" class="p10">
+                    <div class="mb30">
+                        <label class="task-assigned-to-label">Assigned to</label>
+                        <md-autocomplete flex
+                                md-selected-item="task.assignedTo"
+                                md-search-text="searchText"
+                                md-items="item in querySearch(searchText)"
+                                md-item-text="item.firstName + ' ' + item.lastName"
+                                md-min-length="0"
+                                placeholder="Search users">
+                            <md-item-template>
+                                <div layout="row" layout-align="center">
+                                    <img ng-src="{{item.imageUrl}}" class="autocomplete-user-image" />
+                                    <span md-highlight-text="searchText" flex md-highlight-flags="^i">{{item.firstName + ' ' + item.lastName}}</span>
+                                </div>
+                            </md-item-template>
+                            <md-not-found>
+                                No users matching "{{searchText}}" were found.
+                            </md-not-found>
+                        </md-autocomplete>
+                    </div>
+                    <md-input-container class="mb30">
+                        <label>Task difficulty</label>
+                        <md-select ng-model="task.difficulty" ng-change="save()">
+                            <md-option ng-repeat="td in dificultyList" ng-value="td">{{td | capitalize}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="mb30">
+                        <label>Task priority</label>
+                        <md-select ng-model="task.priority" ng-change="save()">
+                            <md-option ng-repeat="tp in priorityList" ng-value="tp">{{tp | capitalize}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <!--<md-button ng-click="cancel()">-->
+                <!--Close-->
+            <!--</md-button>-->
+        </md-dialog-actions>
+    </form>
+</md-dialog>

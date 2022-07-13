@@ -1,0 +1,21 @@
+<div class="task-list" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>
+                <span>{{zones[zone]}}</span>
+            </h2>
+        </div>
+    </md-toolbar>
+    <div layout flex>
+        <md-list flex
+                 dnd-list="list"
+                 dnd-drop="dropCallback(index, item, external, type, zone)">
+            <li ng-repeat="item in list"
+                dnd-draggable="item"
+                dnd-effect-allowed="move"
+                dnd-moved="list.splice($index, 1)">
+                <task task="item" slug="slug" sprint="sprint"></task>
+            </li>
+        </md-list>
+    </div>
+</div>
